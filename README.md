@@ -14,6 +14,8 @@ It will allow customers, mechanics and dealers to schedule, quote and organize v
   - Object Oriented Programming
   - Creating Classes and Methods
   - Inheritance
+  - Data Structures
+  - Creating Databases
 
 ## Included Features 
 
