@@ -64,7 +64,8 @@ if user_type == 3: # user is an admin
         # Delete car model
     else:
         print("Invalid choice.")
-elif user_type == 2 #user is a mechanic
+
+elif user_type == 2: # user is a mechanic
     print("You are a mechanic!!")
     #prompt to enter the day they wanna see the schedule for
     print("What day would you like to see the schedule for?")
