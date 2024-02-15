@@ -35,7 +35,7 @@ The software should have the following tables:
 - The software should be able to drop the database
 - The software should be able to close the connection to the database
 
-
+incorprate PEP8 styling standards
 """
 # Your code here
 
@@ -84,7 +84,15 @@ elif user_type == 2: # user is a mechanic
     elif mechanic_choice == "3":
         print("You chose to see the schedule for Wednesday.")
         #display the schedule for that day
-    #display the schedule for that day
+
+    elif mechanic_choice == "4":
+        print("You chose to see the schedule for Thursday.")
+        #display the schedule for that day
+
+    elif mechanic_choice == "5":
+        print("You chose to see the schedule for Friday.")
+        #display the schedule for that day
+
     
 
 
