@@ -38,32 +38,46 @@ The software should have the following tables:
 incorprate PEP8 styling standards
 """
 # Your code here
+# import the models file
+from models import Vehicle, Service
+from models import delete_vehicle_by_id, view_all_vehicles, admin_interface, delete_service_by_id, view_all_services
+
+def read_data_from_files(car_models, services):
+    car_models = []
+    services = []
+
+    try:
+        with open('vehicles.txt', 'r') as f:
+            for line in f:
+                vehicle_id, make, model, year, fuel_type, transmission_type, oil_type, tire_size = line.strip().split(',')
+                car_models.append(Vehicle(vehicle_id, make, model, int(year), fuel_type, transmission_type, oil_type, tire_size))
+
+        with open('availserv.txt', 'r') as f:
+            for line in f:
+                service_id, service_name, estimated_time, estimated_labour_cost = line.strip().split(',')
+                services.append(Service(service_id, service_name, estimated_time, float(estimated_labour_cost)))
+    except FileNotFoundError:
+        print("Data files not found. Starting with empty lists.")
+
+    return car_models, services
+
+# reading the file to see if there are priopr records
+car_models, services = read_data_from_files()
 
 print("Welcome to the Car Maintenance software!") # welcome message
-
 # Ask the user whether they are an admin, a mechanic or a car owner
-user_type = input("Are you an car owner(1), a mechanic(2) or an admin(3)? ")
-
-# If the user is an admin, they should be able to add, update or delete car models
+user_type = int(input("Are you an car owner(1), a mechanic(2) or an admin(3)? "))
 
 if user_type == 3: # user is an admin
     print("You are an admin!!")
-    print("What would you like to do?")
-    print("1. Add car model")
-    print("2. Update car model")
-    print("3. Delete car model")
-    admin_choice = input("Enter your choice: ")
-    if admin_choice == "1":
-        print("You chose to add a car model.")
-        # Add car model
-    elif admin_choice == "2":
-        print("You chose to update a car model.")
-        # Update car model
-    elif admin_choice == "3":
-        print("You chose to delete a car model.")
-        # Delete car model
-    else:
-        print("Invalid choice.")
+    print("Enter Password")
+    password = input("Enter your password: ")
+    while password != "admin":
+        print("Invalid password")
+        password = input("Enter your password: ")
+
+    print("Welcome Admin!")
+    admin_interface(car_models, services)
 
 elif user_type == 2: # user is a mechanic
     print("You are a mechanic!!")
@@ -74,13 +88,18 @@ elif user_type == 2: # user is a mechanic
     print("3. Wednesday")
     print("4. Thursday")
     print("5. Friday")
+    print("6. Exit")
     mechanic_choice = input("Enter your choice: ")
     if mechanic_choice == "1":
         print("You chose to see the schedule for Monday.")
         #display the schedule for that day
+
+
     elif mechanic_choice == "2":
         print("You chose to see the schedule for Tuesday.")
         #display the schedule for that day
+    
+    
     elif mechanic_choice == "3":
         print("You chose to see the schedule for Wednesday.")
         #display the schedule for that day
