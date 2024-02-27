@@ -40,14 +40,15 @@ incorprate PEP8 styling standards
 # Your code here
 # import the models file
 from models import Vehicle, Service
-from models import delete_vehicle_by_id, view_all_vehicles, admin_interface, delete_service_by_id, view_all_services
+from models import delete_vehicle_by_id, view_all_vehicles, admin_interface, delete_service_by_id, view_all_services, car_owner_interface
 
-def read_data_from_files(car_models, services):
+
+def read_data_from_files():
     car_models = []
     services = []
 
     try:
-        with open('vehicles.txt', 'r') as f:
+        with open('vehicle_table.txt', 'r') as f:
             for line in f:
                 vehicle_id, make, model, year, fuel_type, transmission_type, oil_type, tire_size = line.strip().split(',')
                 car_models.append(Vehicle(vehicle_id, make, model, int(year), fuel_type, transmission_type, oil_type, tire_size))
@@ -61,8 +62,13 @@ def read_data_from_files(car_models, services):
 
     return car_models, services
 
+
+
 # reading the file to see if there are priopr records
 car_models, services = read_data_from_files()
+
+view_all_vehicles(car_models)
+view_all_services(services)
 
 print("Welcome to the Car Maintenance software!") # welcome message
 # Ask the user whether they are an admin, a mechanic or a car owner
@@ -70,8 +76,8 @@ user_type = int(input("Are you an car owner(1), a mechanic(2) or an admin(3)? ")
 
 if user_type == 3: # user is an admin
     print("You are an admin!!")
-    print("Enter Password")
-    password = input("Enter your password: ")
+    
+    password = input("Enter your password(Hint: admin): ")
     while password != "admin":
         print("Invalid password")
         password = input("Enter your password: ")
@@ -111,6 +117,9 @@ elif user_type == 2: # user is a mechanic
     elif mechanic_choice == "5":
         print("You chose to see the schedule for Friday.")
         #display the schedule for that day
+
+elif user_type == 1: # user is a car owner
+    car_owner_interface(car_models, services)
 
     
 

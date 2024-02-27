@@ -1,5 +1,0 @@
-1,Oil Change,30 minutes,29.99
-2,Tire Rotation,15 minutes,19.99
-3,Brake Inspection,60 minutes,49.99
-4,Transmission Fluid Change,120 minutes,99.99
-5,Coolant Flush,90 minutes,79.99
