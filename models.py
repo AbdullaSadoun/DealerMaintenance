@@ -37,7 +37,6 @@ class Vehicle:
         table.field_names = ["Vehicle ID", "Make", "Model", "Year", "Fuel Type", "Transmission Type", "Oil Type", "Tire Size"]
         table.add_row([self.vehicle_id, self.make, self.model, self.year, self.fuel_type, self.transmission_type, self.oil_type, self.tire_size])
         print(table)'''
-
 class Mechanic:
     def __init__(self, mechanic_id, mechanic_name, mechanic_email, mechanic_phone):
         self.mechanic_id = mechanic_id
@@ -52,15 +51,27 @@ class Mechanic:
                 return False
         return True
 
-    def add_appointment(self, day, time, car_owner, service_requested, car_model):
-        # Check if the time is within the mechanic's working hours and not during his break time
-        if (time < "9:00" or time > "17:00" or (time >= "13:00" and time < "14:00")):
-            print("The mechanic is not available at this time.")
-            return
+    def find_next_available_time(self, start_day):
+        # Define the mechanic's working hours and days
+        working_hours = ["9:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00"]
+        days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
-        # Check if the time slot is free
-        if not self.is_time_slot_free(day, time):
-            print("The mechanic is already booked at this time.")
+        # Start checking from the given day
+        for day in days_of_week[days_of_week.index(start_day):]:
+            for time in working_hours:
+                if self.is_time_slot_free(day, time):
+                    return day, time
+
+        # If no time slot is free, return None
+        return None, None
+
+    def add_appointment(self, day, car_owner, service_requested, car_model):
+        # Find the next available time slot
+        day, time = self.find_next_available_time(day)
+
+        # If no time slot is free, print a message and return
+        if time is None:
+            print("The mechanic is not available in the following days.")
             return
 
         appointment = {
@@ -72,15 +83,20 @@ class Mechanic:
         }
         self.schedule.append(appointment)
 
-    def view_schedule_for_day(self, day):
-        table = PrettyTable()
-        table.field_names = ["Day", "Time", "Car Owner", "Service Requested", "Car Model"]
-        
-        for appointment in self.schedule:
-            if appointment['day'] == day:
-                table.add_row([appointment['day'], appointment['time'], appointment['car_owner'], appointment['service_requested'], appointment['car_model']])
-        
-        print(table)
+        # Return the day and time of the appointment
+        return day, time
+
+def view_schedule_for_day(mechanic_schedule, day):
+    table = PrettyTable()
+    table.field_names = ["Day", "Time", "Car Owner", "Service Requested", "Car Model"]
+    
+    for appointment in mechanic_schedule:
+        if appointment['day'] == day:
+            table.add_row([appointment['day'], appointment['time'], appointment['car_owner'], appointment['service_requested'], appointment['car_model']])
+    
+    print(table)
+
+    #####dont mind this comment its just my
 
 
 
@@ -127,7 +143,20 @@ def view_all_services(services):
         table.add_row([service.service_id, service.service_name, service.estimated_time, service.estimated_labour_cost])
     print(table)
 
+def view_all_appointments(mechanic_schedule):
+    table = PrettyTable()
+    table.field_names = ["Day", "Time", "Car Owner", "Service Requested", "Car Model"]
+    for appointment in mechanic_schedule:
+        table.add_row([appointment['day'], appointment['time'], appointment['car_owner'], appointment['service_requested'], appointment['car_model']])
+    print(table)
 
+def view_appointments_for_day(mechanic_schedule, day):
+    table = PrettyTable()
+    table.field_names = ["Day", "Time", "Car Owner", "Service Requested", "Car Model"]
+    for appointment in mechanic_schedule:
+        if appointment['day'] == day:
+            table.add_row([appointment['day'], appointment['time'], appointment['car_owner'], appointment['service_requested'], appointment['car_model']])
+    print(table)
 
 
 
@@ -160,10 +189,10 @@ def admin_interface(car_models, services):
             make = input("Enter the make of the car: ").upper()
             model = input("Enter the model of the car: ").upper()
             year = input("Enter the year of the car: ")
-            fuel_type = input("Enter the fuel type of the car: ")
-            transmission_type = input("Enter the transmission type of the car: ")
-            oil_type = input("Enter the oil type of the car: ")
-            tire_size = input("Enter the tire size of the car: ")
+            fuel_type = input("Enter the fuel type of the car: ").upper()
+            transmission_type = input("Enter the transmission type of the car: ").upper()
+            oil_type = input("Enter the oil type of the car: ").upper()
+            tire_size = input("Enter the tire size of the car: ").upper()
             vehicle_id = len(car_models) + 1
             #insert the car model details into the car model table by adding the record to the table
             vehicle = Vehicle(vehicle_id, make, model, year, fuel_type, transmission_type, oil_type, tire_size)
@@ -204,15 +233,7 @@ def admin_interface(car_models, services):
         else:
             print("Invalid choice. Please enter a number between 1 and 7.")
 
-    '''
-    with open('vehicle_table.txt', 'w') as f:
-        for vehicle in car_models:
-            f.write(f"{vehicle.vehicle_id},{vehicle.make},{vehicle.model},{vehicle.year},{vehicle.fuel_type},{vehicle.transmission_type},{vehicle.oil_type},{vehicle.tire_size}\n")
-
-    with open('availserv.txt', 'w') as f:
-        for service in services:
-            f.write(f"{service.service_id},{service.service_name},{service.service_price}\n")'''
-
+   
     if car_models:  # Only write to the file if the car_models list is not empty
         with open('vehicle_table.txt', 'w') as f:
             for vehicle in car_models:
@@ -221,7 +242,7 @@ def admin_interface(car_models, services):
     if services:  # Only write to the file if the services list is not empty
         with open('availserv.txt', 'w') as f:
             for service in services:
-                f.write(f"{service.service_id},{service.service_name},{service.service_price}\n")
+                f.write(f"{service.service_id},{service.service_name},{service.estimated_time},{service.estimated_labour_cost}\n")
     
     return
 
@@ -232,26 +253,18 @@ def admin_interface(car_models, services):
 
 
 
-def car_owner_interface(car_models, services):
+
+
+
+
+def car_owner_interface(car_models, services, mechanic):
     # Step 1: Ask the user for their car details
     carowner_make = input("Enter your car make: ").upper()
     carowner_model = input("Enter your car model: ").upper()
 
     # Step 2: Check if the car model is in the car_models list
-    '''if car_model not in car_models:
-        print("Sorry, we do not have any services available for your car.")
-        return'''
-    
-    '''for car_models.make in car_models:
-        if car_make == car_models.make and car_makesmodel == car_models.model:
-            print("We have your car model in our database.")
-            break
-        else:
-            print("Sorry, we do not have any services available for your car.")
-            return'''
-    
-    for car_models in car_models:
-        if carowner_make == car_models.make and carowner_model == car_models.model:
+    for car_model in car_models:
+        if carowner_make == car_model.make and carowner_model == car_model.model:
             print("We have your car model in our database.")
             break
     else:  # This else clause corresponds to the for loop, not the if statement
@@ -266,11 +279,12 @@ def car_owner_interface(car_models, services):
     service_choice = int(input("Enter the number of the service you want to choose: "))
     chosen_service = services[service_choice - 1]
 
-    # Step 4: If the user chooses to call a mechanic for other services, handle that option
-    # This will depend on your implementation
-
-    # Step 5: If the user chooses a service, calculate the estimated cost
+    # Step 4: If the user chooses a service, calculate the estimated cost
     estimated_cost = chosen_service.estimated_labour_cost
+
+    # Step 5: Book an appointment with the mechanic
+    start_day = input("Enter the start day for the service (e.g., 'Monday'): ").upper()
+    day, time = mechanic.add_appointment(start_day, carowner_make + " " + carowner_model, chosen_service.service_name, carowner_model)
 
     # Step 6: Print a "receipt" with the cost, schedule, date of request, and vehicle info and customer info
     customer_name = input("Please enter your name: ")
@@ -282,10 +296,13 @@ def car_owner_interface(car_models, services):
     print(customer_info)
  
     receipt = PrettyTable()
-    receipt.field_names = ["Car Make", "Car Model", "Service", "Estimated Cost", "Date of Request"]
-    receipt.add_row([carowner_make, carowner_model, chosen_service.service_name, estimated_cost, datetime.now().strftime("%Y-%m-%d")])
+    receipt.field_names = ["Car Make", "Car Model", "Service", "Estimated Cost", "Date of Request", "Appointment Day", "Appointment Time"]
+    receipt.add_row([carowner_make, carowner_model, chosen_service.service_name, estimated_cost, datetime.now().strftime("%Y-%m-%d"), day, time])
     print(receipt)
 
+    # Step 7: Write the new appointment to the 'mechanic1.txt' file
+    with open('mechanic1.txt', 'a') as f:
+        f.write(f"{day},{time},{customer_name},{chosen_service.service_name},{carowner_make + ' ' + carowner_model}\n")
 
 
 
@@ -295,20 +312,3 @@ def car_owner_interface(car_models, services):
 
 
 
-        
-    
-
-'''class Part:
-    def __init__(self, part_id, part_name, cost):
-        self.part_id = part_id
-        self.part_name = part_name
-        self.cost = cost
-
-class VehicleService:
-    def __init__(self, vehicle_service_id, vehicle_id, service_id, cost, parts_required):
-        self.vehicle_service_id = vehicle_service_id
-        self.vehicle_id = vehicle_id
-        self.service_id = service_id
-        self.cost = cost
-        self.parts_required = parts_required
-'''

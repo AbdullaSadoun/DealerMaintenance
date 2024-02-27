@@ -37,17 +37,20 @@ The software should have the following tables:
 
 incorprate PEP8 styling standards
 """
-# Your code here
-# import the models file
-from models import Vehicle, Service
-from models import delete_vehicle_by_id, view_all_vehicles, admin_interface, delete_service_by_id, view_all_services, car_owner_interface
+
+# importing the models methods
+from models import Vehicle, Service, Mechanic
+from models import delete_vehicle_by_id, view_all_vehicles, admin_interface, delete_service_by_id, view_all_services, car_owner_interface, view_all_appointments
+from models import view_schedule_for_day
+from prettytable import PrettyTable
 
 
 def read_data_from_files():
     car_models = []
     services = []
+    schedule = []
 
-    try:
+    try: # try to open the files containting the data
         with open('vehicle_table.txt', 'r') as f:
             for line in f:
                 vehicle_id, make, model, year, fuel_type, transmission_type, oil_type, tire_size = line.strip().split(',')
@@ -57,18 +60,26 @@ def read_data_from_files():
             for line in f:
                 service_id, service_name, estimated_time, estimated_labour_cost = line.strip().split(',')
                 services.append(Service(service_id, service_name, estimated_time, float(estimated_labour_cost)))
-    except FileNotFoundError:
+        
+        with open('mechanic1.txt', 'r') as f:
+            for line in f:
+                day, time, car_owner, service_requested, car_model = line.strip().split(',')
+                appointment = {'day': day, 'time': time, 'car_owner': car_owner, 'service_requested': service_requested, 'car_model': car_model}
+                schedule.append(appointment)
+    except FileNotFoundError: # if the an error is encountered print the following message
         print("Data files not found. Starting with empty lists.")
 
-    return car_models, services
+    return car_models, services, schedule
+
+# reading the file to see if there are priopr records from previous runs
+car_models, services, mechanic_schedule = read_data_from_files()
+# create an instance mechanic
+mechanic = Mechanic(1, "John", "jb@dal.ca", "902-123-4567")
 
 
-
-# reading the file to see if there are priopr records
-car_models, services = read_data_from_files()
-
-view_all_vehicles(car_models)
-view_all_services(services)
+view_all_vehicles(car_models) # TEST
+view_all_services(services) # TEST
+view_all_appointments(mechanic_schedule) # TEST
 
 print("Welcome to the Car Maintenance software!") # welcome message
 # Ask the user whether they are an admin, a mechanic or a car owner
@@ -95,31 +106,15 @@ elif user_type == 2: # user is a mechanic
     print("4. Thursday")
     print("5. Friday")
     print("6. Exit")
+
     mechanic_choice = input("Enter your choice: ")
-    if mechanic_choice == "1":
-        print("You chose to see the schedule for Monday.")
-        #display the schedule for that day
-
-
-    elif mechanic_choice == "2":
-        print("You chose to see the schedule for Tuesday.")
-        #display the schedule for that day
-    
-    
-    elif mechanic_choice == "3":
-        print("You chose to see the schedule for Wednesday.")
-        #display the schedule for that day
-
-    elif mechanic_choice == "4":
-        print("You chose to see the schedule for Thursday.")
-        #display the schedule for that day
-
-    elif mechanic_choice == "5":
-        print("You chose to see the schedule for Friday.")
-        #display the schedule for that day
+    day_mapping = {"1": "Monday", "2": "Tuesday", "3": "Wednesday", "4": "Thursday", "5": "Friday"}
+    if mechanic_choice in day_mapping:
+        print(f"You chose to see the schedule for {day_mapping[mechanic_choice]}.")
+        view_schedule_for_day(mechanic_schedule, day_mapping[mechanic_choice])  
 
 elif user_type == 1: # user is a car owner
-    car_owner_interface(car_models, services)
+    car_owner_interface(car_models, services, mechanic)
 
     
 
