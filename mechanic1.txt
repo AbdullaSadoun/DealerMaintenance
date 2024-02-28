@@ -1,3 +1,2 @@
-MONDAY,9:00 AM,John Doe,Oil Change,Toyota Camry
 MONDAY,9:00,Abdulla,Oil Change,HONDA CIVIC
 TUESDAY,9:00,Abdulla,Oil Change,HONDA CIVIC

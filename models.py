@@ -2,16 +2,17 @@
 this is the models file for the vehicle service application
     
 '''
+"""
 from prettytable import PrettyTable
 from datetime import datetime
 
-class Service:
+class Service: # class for the services that can be offered
     def __init__(self, service_id, service_name, estimated_time, estimated_labour_cost):
         self.service_id = service_id
         self.service_name = service_name
         self.estimated_time = estimated_time
         self.estimated_labour_cost = estimated_labour_cost
-class Vehicle:
+class Vehicle: # class for the vehicles that can be serviced
     def __init__(self, vehicle_id, make, model, year, fuel_type, transmission_type, oil_type, tire_size):
         self.vehicle_id = vehicle_id
         self.make = make
@@ -21,23 +22,7 @@ class Vehicle:
         self.transmission_type = transmission_type
         self.oil_type = oil_type
         self.tire_size = tire_size
-
-    '''def view_Vehicle(self):
-        print(f"Vehicle ID: {self.vehicle_id}")
-        print(f"Make: {self.make}")
-        print(f"Model: {self.model}")
-        print(f"Year: {self.year}")
-        print(f"Fuel Type: {self.fuel_type}")
-        print(f"Transmission Type: {self.transmission_type}")
-        print(f"Oil Type: {self.oil_type}")
-        print(f"Tire Size: {self.tire_size}")
-    '''
-    '''def view_Vehicle(self): no longer needed
-        table = PrettyTable()
-        table.field_names = ["Vehicle ID", "Make", "Model", "Year", "Fuel Type", "Transmission Type", "Oil Type", "Tire Size"]
-        table.add_row([self.vehicle_id, self.make, self.model, self.year, self.fuel_type, self.transmission_type, self.oil_type, self.tire_size])
-        print(table)'''
-class Mechanic:
+class Mechanic: # class for the mechanic (his name, contact, schedule)
     def __init__(self, mechanic_id, mechanic_name, mechanic_email, mechanic_phone):
         self.mechanic_id = mechanic_id
         self.mechanic_name = mechanic_name
@@ -86,7 +71,7 @@ class Mechanic:
         # Return the day and time of the appointment
         return day, time
 
-def view_schedule_for_day(mechanic_schedule, day):
+def view_schedule_for_day(mechanic_schedule, day): # searches for the schedule for a given day from the mechanic schedule
     table = PrettyTable()
     table.field_names = ["Day", "Time", "Car Owner", "Service Requested", "Car Model"]
     
@@ -96,20 +81,8 @@ def view_schedule_for_day(mechanic_schedule, day):
     
     print(table)
 
-    #####dont mind this comment its just my
 
-
-
-
-
-
-
-
-
-
-
-
-def delete_vehicle_by_id(vehicle_id, car_models): 
+def delete_vehicle_by_id(vehicle_id, car_models): # 
     for i in range(len(car_models)):
         if car_models[i].vehicle_id == vehicle_id:
             del car_models[i]
@@ -157,6 +130,219 @@ def view_appointments_for_day(mechanic_schedule, day):
         if appointment['day'] == day:
             table.add_row([appointment['day'], appointment['time'], appointment['car_owner'], appointment['service_requested'], appointment['car_model']])
     print(table)
+
+
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+This is the models file for the vehicle service application.
+"""
+
+from datetime import datetime
+from prettytable import PrettyTable
+
+
+class Service:
+    """Represents a service that can be offered."""
+    def __init__(self, service_id, service_name, estimated_time, estimated_labour_cost):
+        self.service_id = service_id
+        self.service_name = service_name
+        self.estimated_time = estimated_time
+        self.estimated_labour_cost = estimated_labour_cost
+
+
+class Vehicle:
+    """Represents a vehicle that can be serviced."""
+    def __init__(self, vehicle_id, make, model, year, fuel_type, transmission_type, oil_type, tire_size):
+        self.vehicle_id = vehicle_id
+        self.make = make
+        self.model = model
+        self.year = year
+        self.fuel_type = fuel_type
+        self.transmission_type = transmission_type
+        self.oil_type = oil_type
+        self.tire_size = tire_size
+
+
+class Mechanic:
+    """Represents a mechanic with a name, contact, and schedule."""
+    def __init__(self, mechanic_id, mechanic_name, mechanic_email, mechanic_phone):
+        self.mechanic_id = mechanic_id
+        self.mechanic_name = mechanic_name
+        self.mechanic_email = mechanic_email
+        self.mechanic_phone = mechanic_phone
+        self.schedule = []
+
+    def is_time_slot_free(self, day, time):
+        """Checks if a given time slot is free."""
+        for appointment in self.schedule:
+            if appointment['day'] == day and appointment['time'] == time:
+                return False
+        return True
+
+    def find_next_available_time(self, start_day):
+        """Finds the next available time slot starting from a given day."""
+        working_hours = ["9:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00"]
+        days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+
+        for day in days_of_week[days_of_week.index(start_day):]:
+            for time in working_hours:
+                if self.is_time_slot_free(day, time):
+                    return day, time
+        return None, None
+
+    def add_appointment(self, day, car_owner, service_requested, car_model):
+        """Adds an appointment if there is an available time slot."""
+        day, time = self.find_next_available_time(day)
+        if time is None:
+            print("The mechanic is not available in the following days.")
+            return
+
+        appointment = {
+            "day": day,
+            "time": time,
+            "car_owner": car_owner,
+            "service_requested": service_requested,
+            "car_model": car_model,
+        }
+        self.schedule.append(appointment)
+        return day, time
+
+
+def view_schedule_for_day(mechanic_schedule, day):
+    """Displays the schedule for a given day."""
+    table = PrettyTable()
+    table.field_names = ["Day", "Time", "Car Owner", "Service Requested", "Car Model"]
+
+    for appointment in mechanic_schedule:
+        if appointment['day'] == day:
+            table.add_row([
+                appointment['day'],
+                appointment['time'],
+                appointment['car_owner'],
+                appointment['service_requested'],
+                appointment['car_model']])
+    
+    print(table)
+
+
+def delete_vehicle_by_id(vehicle_id, car_models):
+    """Deletes a vehicle by its ID."""
+    for i in range(len(car_models)):
+        if car_models[i].vehicle_id == vehicle_id:
+            del car_models[i]
+            print(f"Vehicle with ID {vehicle_id} has been deleted.")
+            return
+    print(f"No vehicle found with ID {vehicle_id}.")
+
+
+def view_all_vehicles(car_models):
+    """Displays all vehicles."""
+    table = PrettyTable()
+    table.field_names = ["Vehicle ID", "Make", "Model", "Year", "Fuel Type", "Transmission Type", "Oil Type", "Tire Size"]
+    for vehicle in car_models:
+        table.add_row([
+            vehicle.vehicle_id, vehicle.make, vehicle.model, vehicle.year,
+            vehicle.fuel_type, vehicle.transmission_type, vehicle.oil_type, vehicle.tire_size])
+    print(table)
+
+
+def delete_service_by_id(service_id, services):
+    """Deletes a service by its ID."""
+    for i in range(len(services)):
+        if services[i].service_id == service_id:
+            del services[i]
+            print(f"Service with ID {service_id} has been deleted.")
+            return
+    print(f"No service found with ID {service_id}.")
+
+
+def view_all_services(services):
+    """Displays all services."""
+    table = PrettyTable()
+    table.field_names = ["Service ID", "Service Name", "Estimated Time", "Estimated Labour Cost"]
+    for service in services:
+        table.add_row([
+            service.service_id, service.service_name,
+            service.estimated_time, service.estimated_labour_cost])
+    print(table)
+
+
+def view_all_appointments(mechanic_schedule):
+    """Displays all appointments."""
+    table = PrettyTable()
+    table.field_names = ["Day", "Time", "Car Owner", "Service Requested", "Car Model"]
+    for appointment in mechanic_schedule:
+        table.add_row([
+            appointment['day'], appointment['time'],
+            appointment['car_owner'], appointment['service_requested'],
+            appointment['car_model']])
+    print(table)
+
+
+def view_appointments_for_day(mechanic_schedule, day):
+    """Displays appointments for a specific day."""
+    view_schedule_for_day(mechanic_schedule, day)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -248,12 +434,31 @@ def admin_interface(car_models, services):
 
 
 
+def read_data_from_files():
+    car_models = []
+    services = []
+    schedule = []
 
+    try: # try to open the files containting the data
+        with open('vehicle_table.txt', 'r') as f:
+            for line in f:
+                vehicle_id, make, model, year, fuel_type, transmission_type, oil_type, tire_size = line.strip().split(',')
+                car_models.append(Vehicle(vehicle_id, make, model, int(year), fuel_type, transmission_type, oil_type, tire_size))
 
+        with open('availserv.txt', 'r') as f:
+            for line in f:
+                service_id, service_name, estimated_time, estimated_labour_cost = line.strip().split(',')
+                services.append(Service(service_id, service_name, estimated_time, float(estimated_labour_cost)))
+        
+        with open('mechanic1.txt', 'r') as f:
+            for line in f:
+                day, time, car_owner, service_requested, car_model = line.strip().split(',')
+                appointment = {'day': day, 'time': time, 'car_owner': car_owner, 'service_requested': service_requested, 'car_model': car_model}
+                schedule.append(appointment)
+    except FileNotFoundError: # if the an error is encountered print the following message
+        print("Data files not found. Starting with empty lists.")
 
-
-
-
+    return car_models, services, schedule
 
 
 

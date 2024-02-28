@@ -1,6 +1,12 @@
 notes: .txt
 
 
+
+testing stuff:
+view_all_vehicles(car_models) # TEST
+view_all_services(services) # TEST
+view_all_appointments(mechanic_schedule) # TEST
+
 sample MECHANIC FILE:
 Monday,9:00 AM,John Doe,Oil Change,Toyota Camry
 
