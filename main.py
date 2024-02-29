@@ -1,3 +1,4 @@
+##
 """
 Car Maintenance software that estimates the cost for a car's maintenance based 
 on the car's model, age and mileage. Then it schedules a maintenance appointment
@@ -37,58 +38,7 @@ The software should have the following tables:
 
 incorprate PEP8 styling standards
 """
-'''
-# importing the models methods
-from models import Vehicle, Service, Mechanic
-from models import read_data_from_files, view_all_vehicles, admin_interface, view_all_services, car_owner_interface, view_all_appointments
-from models import view_schedule_for_day
-from prettytable import PrettyTable
-
-
-# reading the file to see if there are priopr records from previous runs
-car_models, services, mechanic_schedule = read_data_from_files()
-
-# create an instance mechanic
-mechanic = Mechanic(1, "John", "jb@dal.ca", "902-123-4567") # create an instance mechanic
-
-# welcome message
-print("Welcome to the Car Maintenance software!") 
-
-# Ask the user whether they are an admin, a mechanic or a car owner
-user_type = int(input("Are you an car owner(1), a mechanic(2) or an admin(3)? "))
-
-if user_type == 3: # user is an admin
-    print("You are an admin!!")
-    
-    password = input("Enter your password(Hint: admin): ")
-    while password != "admin":
-        print("Invalid password")
-        password = input("Enter your password: ")
-
-    print("Welcome Admin!")
-    admin_interface(car_models, services)
-
-elif user_type == 2: # user is a mechanic
-    print("You are a mechanic!!")
-    #prompt to enter the day they wanna see the schedule for
-    print("What day would you like to see the schedule for?")
-    print("1. Monday")
-    print("2. Tuesday")
-    print("3. Wednesday")
-    print("4. Thursday")
-    print("5. Friday")
-    print("6. Exit")
-
-    mechanic_choice = input("Enter your choice: ")
-    day_mapping = {"1": "Monday", "2": "Tuesday", "3": "Wednesday", "4": "Thursday", "5": "Friday"}
-    if mechanic_choice in day_mapping:
-        print(f"You chose to see the schedule for {day_mapping[mechanic_choice]}.")
-        view_schedule_for_day(mechanic_schedule, day_mapping[mechanic_choice])  
-
-elif user_type == 1: # user is a car owner
-    car_owner_interface(car_models, services, mechanic)
-
-'''
+# Importing the modules
 # Importing the models methods
 from models import (Vehicle, Service, Mechanic, read_data_from_files,
                     view_all_vehicles, admin_interface, view_all_services,
