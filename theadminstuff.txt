@@ -1,0 +1,3 @@
+the admin username is: 'me' no its 'codespace'
+the admin email is: 'abdulla.sadoun@dal.ca'
+the admin password is: 'theadmin'

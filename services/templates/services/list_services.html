@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Services List</title>
+</head>
+<body>
+    <h2>Services List</h2>
+    <ul>
+        {% for service in services %}
+            <li>{{ service.service_name }} - Estimated Labour Cost: ${{ service.estimated_labour_cost }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
