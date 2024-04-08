@@ -16,11 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import redirect #to avoid the error of no URL to redirect to
+#from django.shortcuts import redirect #to avoid the error of no URL to redirect to
+# from vehicles.views import home  # Import the home view (no longer needed as i made a homepage in main app)
+from mycarproject.views import home  # Adjust the import path according to your project structure
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('vehicles.urls')),
-    path('', include('services.urls')),
-    path('', lambda request: redirect('list_vehicles', permanent=False)),  # to redirect to the list_vehicles page
+    # path('', home, name='home'),  # Update this line to use the home view for vehicles
+    #path('', home, name='home'),  # Make sure this points to the new home view
+    #path('', include('vehicles.urls')),
+    #path('', include('services.urls')),
+    #path('', lambda request: redirect('list_vehicles', permanent=False)),  # to redirect to the list_vehicles page
+    #path('appointments/', include('appointments.urls')),  # Include the appointments app URLs
+
+
+    path('', views.home, name='home'),  # Assuming a home view exists
+    path('vehicles/', include('vehicles.urls')),
+    path('services/', include('services.urls')),
+    path('appointments/', include('appointments.urls')),
 ]

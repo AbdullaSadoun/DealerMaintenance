@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upcoming Appointments</title>
+</head>
+<body>
+    <h2>Upcoming Maintenance Appointments</h2>
+    <ul>
+        {% for appointment in appointments %}
+            <li>{{ appointment.appointment_date }} at {{ appointment.appointment_time }}: {{ appointment.vehicle }} for {{ appointment.service }}</li>
+        {% empty %}
+            <li>No upcoming appointments.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
