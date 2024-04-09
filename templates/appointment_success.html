@@ -1,0 +1,39 @@
+<!-- appointment_success.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Confirmed</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="navbar-brand">
+            <img src="{% static 'images/logo.png' %}" alt="Company Logo" class="logo"/>
+        </a>
+        <div class="links">
+            <a href="/admin/">ADMINISTRATOR</a>
+            <a href="{% url 'view_appointments' %}">MECHANIC</a>
+            <a href="{% url 'schedule_appointment' %}">BOOK APPOINTMENT</a>
+            <a href="{% url 'about_us' %}">ABOUT US</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Appointment Confirmed</h2>
+        <p>Thank you for using our service. Your appointment has been successfully scheduled.</p>
+        <p>Your appointment ID is: {{ appointment_id }}</p>
+        <p><a href="{% url 'download_pdf' appointment_id %}" class="cta-button">Download Confirmation</a></p>
+        <p><a href="{% url 'home' %}" class="cta-button">Return Home</a></p>
+    </div>
+
+    <!-- Additional content goes here -->
+
+</body>
+</html>
+

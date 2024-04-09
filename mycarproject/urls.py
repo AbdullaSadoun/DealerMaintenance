@@ -35,4 +35,7 @@ urlpatterns = [
     path('vehicles/', include('vehicles.urls')),
     path('services/', include('services.urls')),
     path('appointments/', include('appointments.urls')),
+    # about us page
+    path('about_us/', views.about_us, name='about_us'),
+
 ]

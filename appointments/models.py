@@ -12,3 +12,5 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"{self.vehicle} - {self.service} on {self.appointment_date} at {self.appointment_time}"
+
+

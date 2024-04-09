@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="navbar-brand">
+            <img src="{% static 'images/logo.png' %}" alt="Company Logo" class="logo"/>
+        </a>
+        <div class="links">
+            <a href="/admin/">ADMINISTRATOR</a>
+            <a href="{% url 'view_appointments' %}">MECHANIC</a>
+            <a href="{% url 'schedule_appointment' %}">BOOK APPOINTMENT</a>
+            <a href="{% url 'about_us' %}">ABOUT US</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>About Us</h2>
+        <img src="{% static 'images/teamphoto.jpg' %}" alt="Our Team" class="team-photo">
+    
+        <div class="team-description">
+            <div class="member">
+                <h3>Abdulla Sadoun</h3>
+                <p>Computer and Electrical Engineering Student at Dalhousie University.</p>
+                <p><a href="https://www.linkedin.com/in/abdullasadoun/" class="social-link">Connect on LinkedIn</a></p>
+            </div>
+    
+            <div class="member">
+                <h3>Abdul Hameed Al Busaidi</h3>
+                <p>Electrical Engineer in Training</p>
+                <p><a href="https://www.linkedin.com/in/abdul-hameed-al-busaidi-4a58b0268/" class="social-link">Connect on LinkedIn</a></p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
