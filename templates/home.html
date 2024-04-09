@@ -28,26 +28,34 @@
         <a href="#" class="cta-button">BOOK ONLINE</a>
     </div>
 
-    <div class="container">
-        <h2>Service Options & Pricing</h2>
-        <div class="services">
-            <div class="service">
-                <img src="{% static 'images/oil-change.jpg' %}" alt="Oil Change" class="service-image"/>
-                <h3>Oil Change</h3>
-                <p>Starting at $39.99</p>
+    <div class="services-section">
+        <h3>Our Services</h3>
+        <div class="service">
+            <img src="{% static 'images/oil-change.jpg' %}" alt="Service 1" class="service-img">
+            <div>
+                <h4>Engine Oil Change</h4>
+       
             </div>
-            <div class="service">
-                <img src="{% static 'images/brake-repair.jpg' %}" alt="Brake Repair" class="service-image"/>
-                <h3>Brake Repair</h3>
-                <p>Starting at $99.99</p>
+        </div>
+        <div class="service">
+            <img src="{% static 'images/brake-repair.jpg' %}" alt="Service 2" class="service-img">
+            <div>
+                <h4>Brake Repair</h4>
+                
             </div>
-            <div class="service">
-                <img src="{% static 'images/tire-rotation.jpg' %}" alt="Tire Rotation" class="service-image"/>
-                <h3>Tire Rotation</h3>
-                <p>Starting at $19.99</p>
+        </div>
+        <div class="service">
+            <img src="{% static 'images/tire-rotation.jpg' %}" alt="Service 2" class="service-img">
+            <div>
+                <h4>Tire Rotation</h4>
+            
             </div>
         </div>
     </div>
-
+    
+    <div class="contact-us">
+        <a href="{% url 'about_us' %}" class="cta-button">Contact Us</a>
+    </div>
+    
 </body>
 </html>
