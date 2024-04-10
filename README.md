@@ -1,4 +1,4 @@
-This is our Project #1 for ENGM4620 (Intro to Python for Engineers)
+This is our Project#3 (was 1) for ENGM4620 (Intro to Python for Engineers)
 
 ## Introduction and Purpose: 
 The main purpose of this web application is to aid and automate the process of maintenance and service for dealerships and garages. The software will help administrators, mechanics and customers swiftly book appointments and check what services can be done on their selected vehicles.
