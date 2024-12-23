@@ -1,11 +1,2 @@
-asgiref==3.8.1
-chardet==5.2.0
-Django==5.0.4
-pillow==10.3.0
-reportlab==4.1.0
-sqlparse==0.4.4
-typing_extensions==4.11.0
-
-
-used this command to get the content of this file:
-pip freeze > requirements.txt
+python3
+PrettyTable Library

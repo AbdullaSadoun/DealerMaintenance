@@ -1,0 +1,4 @@
+MONDAY,9:00,Abdulla,Oil Change,HONDA CIVIC
+TUESDAY,9:00,Abdulla,Oil Change,HONDA CIVIC
+Monday,9:00,Abdulla,Oil Change,HONDA ACCORD
+Tuesday,9:00,Abdulla,Oil Change,TOYOTA CAMRY
